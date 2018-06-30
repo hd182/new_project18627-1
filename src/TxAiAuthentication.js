@@ -2,8 +2,8 @@ const crypto = require('crypto');
 const request=require('request');
 const fs=require('fs')
 const config = {
-	    appId:'1106995576',
-	    appKey:'abB4qko6kiNPES3B'
+	    appId:'xxxxx',//申请的腾讯ai项目app_id
+	    appKey:'xxxx'//申请的腾讯ai项目appkey
 	  };
 class ai{
 	//字典排序
