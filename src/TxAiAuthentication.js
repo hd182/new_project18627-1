@@ -1,9 +1,7 @@
 const crypto = require('crypto');
-const request=require('request');
-const fs=require('fs')
 const config = {
-	    appId:'1106995576',
-	    appKey:'abB4qko6kiNPES3B'
+	    appId:'你的appId',
+	    appKey:'你的appKey'
 	  };
 class ai{
 	//字典排序
@@ -19,19 +17,14 @@ class ai{
 	    return newObj; //返回排好序的新对象
 	}
 	//URL拼接
-	jsonToURL(param, key, encode){
+	jsonToURL(param){
 		if (param == null) return "";
 	    let paramStr = "";
 	    let t = typeof param;
-	    if (t == "string" || t == "number" || t == "boolean") {
-	        paramStr +="&" +key +"=" +(encode == null || encode ? encodeURIComponent(param) : param);
-	    } else {
-	        for (let i in param) {
-	            let k = key == null? i: key + (param instanceof Array ? "[" + i + "]" : "." + i);
-	            paramStr += this.jsonToURL(param[i], k, encode);
-	        }
-	    }
-
+	    for (let i in param) {
+        	console.log(i);
+            paramStr +="&" + i + "=" +encodeURIComponent(param[i]);
+        }
 	    return paramStr;
 	}
 	//生成随机数
@@ -50,13 +43,14 @@ class ai{
 	    param['nonce_str'] = this.randomNumber();
 	    param['time_stamp'] = Math.floor(new Date().getTime() / 1000);//生成秒级时间戳
 	    let json = this.objKeySort(param);
+	    console.log(json);
 	    let str = this.jsonToURL(json);
 	    str = str.substr(1, str.length);
 	    str += "&" + "app_key" + "=" + config.appKey;
 	    let md5Str = crypto.createHash("md5WithRSAEncryption").update(str || "").digest("hex");//md5加密
-	    let sign=md5Str.toUpperCase();
+	    let sign=md5Str.toUpperCase();//生成的sign
 	    param.sign=sign;
-	    return param;
+	    return param;//返回请求时需要的参数
 	}
 
 }
